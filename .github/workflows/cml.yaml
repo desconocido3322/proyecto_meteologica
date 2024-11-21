@@ -1,0 +1,38 @@
+name: Train LSTM Model
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  train:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          #python-version: '3.x'  
+          python-version: '3.11'  
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Train LSTM Model
+        run: |
+          python train.py
+
+      - name: Upload Predictions Plot
+        uses: actions/upload-artifact@v3
+        with:
+          name: predictions
+          path: predicciones.png
+
+      - name: Finalize
+        run: |
+          echo "Training completed successfully."
