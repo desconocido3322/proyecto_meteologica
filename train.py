@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import random as rd
 import matplotlib.pyplot as plt
+import os
+os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # Cargar los datos
 datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv',encoding='utf-8')
