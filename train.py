@@ -8,10 +8,11 @@ from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import random as rd
 import matplotlib.pyplot as plt
 import os
+plt.savefig('predicciones.png', encoding='utf-8')
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # Cargar los datos
-datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv',encoding='utf-8')
+datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv', encoding='utf-8')
 y3 = datos_combinadosAJAHUEL_H1['X3'].values
 
 # Preparar los datos
