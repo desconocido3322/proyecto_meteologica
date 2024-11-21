@@ -56,7 +56,7 @@ loss = model.evaluate(yw_test, yt_test, verbose=0)
 print(f'Validation loss: {loss}')
 
 # Calcular métricas adicionales
-predictions = model.predict(yw_test)
+predictions = model.predict(yw_test,verbose=0)
 r2 = r2_score(yt_test, predictions)
 mae = mean_absolute_error(yt_test, predictions)
 mse = mean_squared_error(yt_test, predictions)
