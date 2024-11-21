@@ -49,7 +49,7 @@ model.compile(optimizer='adam', loss='mse')
 model.summary()
 
 # Entrenar el modelo
-history = model.fit(yw_train, yt_train, epochs=100, validation_data=(yw_test, yt_test), verbose=0)
+history = model.fit(yw_train, yt_train, epochs=14, validation_data=(yw_test, yt_test), verbose=0)
 
 # Evaluar el modelo
 loss = model.evaluate(yw_test, yt_test)
