@@ -52,7 +52,7 @@ model.summary()
 history = model.fit(yw_train, yt_train, epochs=14, validation_data=(yw_test, yt_test), verbose=0)
 
 # Evaluar el modelo
-loss = model.evaluate(yw_test, yt_test)
+loss = model.evaluate(yw_test, yt_test, verbose=0)
 print(f'Validation loss: {loss}')
 
 # Calcular métricas adicionales
