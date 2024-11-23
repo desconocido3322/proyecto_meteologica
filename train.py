@@ -9,13 +9,11 @@ import random as rd
 import matplotlib.pyplot as plt
 import os
 
-os.environ["PYTHONIOENCODING"] = "utf-8"
-
 # Ruta para guardar/cargar el modelo
 model_path = "model.h5"
 
 # Cargar los datos
-datos_combinadosAJAHUEL_H1 = pd.read_csv('final.csv', encoding='utf-8')
+datos_combinadosAJAHUEL_H1 = pd.read_csv('final.csv')
 y3 = datos_combinadosAJAHUEL_H1['ts'].values
 
 # Preparar los datos
