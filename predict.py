@@ -20,7 +20,7 @@ except:
 
 # Cargar el modelo entrenado
 try:
-    model = load_model("model.h5",custom_objects={'mse': metrics.mean_squared_error})
+    model = load_model("model.h5",custom_objects={'mse': metrics.MeanSquaredError()})
 except Exception as e:
     print(f"Error al cargar el modelo: {e}")
     sys.exit(1)
