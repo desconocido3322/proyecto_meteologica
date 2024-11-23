@@ -15,15 +15,11 @@ jobs:
           python-version: '3.11'
 
       - name: Run Predictions
+        env:
+          PREDICTION_INPUT: ${{ github.event.client_payload.datos }}
         run: |
-          python predict.py
-
-      - name: Upload Prediction Results
-        uses: actions/upload-artifact@v3
-        with:
-          name: prediction-results
-          path: prediction.txt
+          python predict.py "${{ env.PREDICTION_INPUT }}"
 
       - name: Finalize Predictions
         run: |
-          echo "Predictions completed and saved to prediction.txt."
+          echo "Prediction workflow completed successfully."
