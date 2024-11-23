@@ -1,5 +1,6 @@
 import numpy as np
-import tensorflow as tf
+from tensorflow.keras.models import load_model
+from tensorflow.keras import metrics
 import sys
 
 # Configuración de semillas para reproducibilidad
@@ -18,7 +19,7 @@ except:
 
 # Cargar el modelo entrenado
 try:
-    model = tf.keras.models.load_model("model.h5")
+    model = load_model("model.h5",custom_objects={'mse': metrics.mean_squared_error})
 except Exception as e:
     print(f"Error al cargar el modelo: {e}")
     sys.exit(1)
