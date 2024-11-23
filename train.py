@@ -2,13 +2,17 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.layers import LSTM, Input, Dense
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, load_model
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import random as rd
 import matplotlib.pyplot as plt
 import os
+
 os.environ["PYTHONIOENCODING"] = "utf-8"
+
+# Ruta para guardar/cargar el modelo
+model_path = "model.h5"
 
 # Cargar los datos
 datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv', encoding='utf-8')
@@ -37,31 +41,40 @@ yw_train, yw_test, yt_train, yt_test = train_test_split(yw, yt, test_size=0.3, r
 yw_train = yw_train.reshape((yw_train.shape[0], 3, 1))
 yw_test = yw_test.reshape((yw_test.shape[0], 3, 1))
 
-# Definir y compilar el modelo LSTM
-model = Sequential()
-model.add(Input(name="serie", shape=(3, 1)))
-model.add(LSTM(250, activation='relu'))
-model.add(Dense(1, activation='linear'))
-
-model.compile(optimizer='adam', loss='mse')
+# Verificar si el modelo ya existe y cargarlo si es así
+if os.path.exists(model_path):
+    print(f"Cargando modelo existente desde {model_path}...")
+    model = load_model(model_path)
+else:
+    print("No se encontró un modelo existente. Creando uno nuevo...")
+    # Definir y compilar el modelo LSTM
+    model = Sequential()
+    model.add(Input(name="serie", shape=(3, 1)))
+    model.add(LSTM(250, activation='relu'))
+    model.add(Dense(1, activation='linear'))
+    model.compile(optimizer='adam', loss='mse')
 
 # Resumen del modelo
 model.summary()
 
 # Entrenar el modelo
-history = model.fit(yw_train, yt_train, epochs=14, validation_data=(yw_test, yt_test), verbose=0)
+history = model.fit(yw_train, yt_train, epochs=14, validation_data=(yw_test, yt_test), verbose=1)
+
+# Guardar el modelo entrenado
+model.save(model_path)
+print(f"Modelo guardado en {model_path}.")
 
 # Evaluar el modelo
 loss = model.evaluate(yw_test, yt_test, verbose=0)
 print(f'Validation loss: {loss}')
 
 # Calcular métricas adicionales
-predictions = model.predict(yw_test,verbose=0)
+predictions = model.predict(yw_test, verbose=0)
 r2 = r2_score(yt_test, predictions)
 mae = mean_absolute_error(yt_test, predictions)
 mse = mean_squared_error(yt_test, predictions)
 
-print(f'R²: {r2}')
+print(f'R^2: {r2}')
 print(f'MAE: {mae}')
 print(f'MSE: {mse}')
 
@@ -74,4 +87,4 @@ plt.title('Predicciones del modelo LSTM')
 plt.xlabel('Índice de Tiempo')
 plt.ylabel('Valor')
 plt.savefig('predicciones.png')
-plt.show()
+print("Gráfico de predicciones guardado como 'predicciones.png'.")
