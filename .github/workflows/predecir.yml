@@ -1,0 +1,29 @@
+name: Predict Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+        datos:
+          description: 'Datos para la predicción'
+          required: true
+jobs:
+  predict:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Predictions
+        env:
+          PREDICTION_INPUT: ${{ github.event.client_payload.datos }}
+        run: |
+          python predict.py "${{ env.PREDICTION_INPUT }}"
+
+      - name: Finalize Predictions
+        run: |
+          echo "Prediction workflow completed successfully."

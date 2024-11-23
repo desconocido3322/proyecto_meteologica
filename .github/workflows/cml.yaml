@@ -1,12 +1,15 @@
-name: Train LSTM Model
+name: Train and Predict Workflow
 
 on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types: [predict_request]
 
 jobs:
   train:
+    if: github.event_name == 'push'
     runs-on: self-hosted
     steps:
       - name: Checkout Repository
@@ -15,8 +18,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          #python-version: '3.x'  
-          python-version: '3.11'  
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
@@ -27,12 +29,43 @@ jobs:
         run: |
           python train.py
 
-      - name: Upload Predictions Plot
-        uses: actions/upload-artifact@v3
-        with:
-          name: predictions
-          path: predicciones.png
-
-      - name: Finalize
+      - name: Commit and Push Model File
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          echo "Training completed successfully."
+          # Configurar git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Establecer la URL remota con el token
+          git remote set-url origin https://$PAT_TOKEN@github.com/${{ github.repository }}.git
+      
+          # Añadir los cambios y hacer commit
+          git add model.h5
+          git commit -m "Add/Update trained model file (model.h5)"
+          
+          # Hacer push al repositorio
+          git push origin main
+
+
+  predict:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Predictions
+        env:
+          PREDICTION_INPUT: ${{ github.event.client_payload.datos }}
+        run: |
+          python predict.py "${{ env.PREDICTION_INPUT }}"
+
+      - name: Finalize Predictions
+        run: |
+          echo "Prediction workflow completed successfully."
