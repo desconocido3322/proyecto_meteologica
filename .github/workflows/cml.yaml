@@ -1,4 +1,4 @@
-name: Train and Predict Workflow
+name: Train Workflow
 
 on:
   push:
@@ -33,11 +33,11 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # Establecer la URL remota con el token
-          git remote set-url origin https://x-access-token:$PAT_TOKEN@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
       
           # Añadir los cambios y hacer commit
           git add model.h5
           git commit -m "Add/Update trained model file (model.h5)"
           
           # Hacer push al repositorio
-          git push origin main
+          git push
