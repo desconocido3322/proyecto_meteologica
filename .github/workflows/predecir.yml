@@ -1,0 +1,29 @@
+name: Predict Workflow
+
+on:
+  workflow_dispatch:
+jobs:
+  predict:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Predictions
+        run: |
+          python predict.py
+
+      - name: Upload Prediction Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: prediction-results
+          path: prediction.txt
+
+      - name: Finalize Predictions
+        run: |
+          echo "Predictions completed and saved to prediction.txt."
