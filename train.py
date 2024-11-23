@@ -15,8 +15,8 @@ os.environ["PYTHONIOENCODING"] = "utf-8"
 model_path = "model.h5"
 
 # Cargar los datos
-datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv', encoding='utf-8')
-y3 = datos_combinadosAJAHUEL_H1['X3'].values
+datos_combinadosAJAHUEL_H1 = pd.read_csv('final.csv', encoding='utf-8')
+y3 = datos_combinadosAJAHUEL_H1['ts'].values
 
 # Preparar los datos
 yw = []
