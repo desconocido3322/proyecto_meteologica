@@ -3,9 +3,10 @@ name: Predict Workflow
 on:
   workflow_dispatch:
     inputs:
-        datos:
-          description: 'Datos para la predicción'
-          required: true
+      datos:
+        description: 'Datos para la predicción'
+        required: true
+
 jobs:
   predict:
     runs-on: self-hosted
@@ -22,8 +23,14 @@ jobs:
         env:
           PREDICTION_INPUT: ${{ github.event.inputs.datos }}
         run: |
-          echo " ${{ env.PREDICTION_INPUT }} "
+          echo "${{ env.PREDICTION_INPUT }}"
           python predict.py "${{ env.PREDICTION_INPUT }}"
+      
+      - name: Upload Prediction Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: prediction-result
+          path: ultimo_valor_predicho.txt
 
       - name: Finalize Predictions
         run: |
