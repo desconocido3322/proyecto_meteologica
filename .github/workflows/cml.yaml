@@ -2,14 +2,9 @@ name: Train and Predict Workflow
 
 on:
   push:
-    branches:
-      - main
-  repository_dispatch:
-    types: [predict_request]
 
 jobs:
   train:
-    if: github.event_name == 'push'
     runs-on: self-hosted
     steps:
       - name: Checkout Repository
@@ -38,7 +33,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           # Establecer la URL remota con el token
-          git remote set-url origin https://$PAT_TOKEN@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:$PAT_TOKEN@github.com/${{ github.repository }}
       
           # Añadir los cambios y hacer commit
           git add model.h5
@@ -46,26 +41,3 @@ jobs:
           
           # Hacer push al repositorio
           git push origin main
-
-
-  predict:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: self-hosted
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Run Predictions
-        env:
-          PREDICTION_INPUT: ${{ github.event.client_payload.datos }}
-        run: |
-          python predict.py "${{ env.PREDICTION_INPUT }}"
-
-      - name: Finalize Predictions
-        run: |
-          echo "Prediction workflow completed successfully."
