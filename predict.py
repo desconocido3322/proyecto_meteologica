@@ -7,11 +7,6 @@ seed = 12122008
 np.random.seed(seed)
 tf.random.set_seed(seed)
 
-# Verificar argumentos
-if len(sys.argv) < 2:
-    print("Error: Debes pasar una lista de 3 valores como argumento.")
-    sys.exit(1)
-
 # Convertir el argumento a una lista de valores
 try:
     datos = eval(sys.argv[1])  # Convierte el argumento en una lista
