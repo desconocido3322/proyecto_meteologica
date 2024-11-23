@@ -58,7 +58,7 @@ else:
 model.summary()
 
 # Entrenar el modelo
-history = model.fit(yw_train, yt_train, epochs=14, validation_data=(yw_test, yt_test), verbose=1)
+history = model.fit(yw_train, yt_train, epochs=14, validation_data=(yw_test, yt_test), verbose=0)
 
 # Guardar el modelo entrenado
 model.save(model_path)
