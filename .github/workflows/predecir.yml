@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: prediction-result
-          path: ultimo_valor_predicho.txt
+          path: predicho.txt
 
       - name: Finalize Predictions
         run: |
