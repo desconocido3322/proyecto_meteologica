@@ -31,16 +31,25 @@ jobs:
 
       - name: Commit and Push Model File
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
+          # Configurar git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Establecer la URL remota con el token
+          git remote set-url origin https://$PAT_TOKEN@github.com/${{ github.repository }}.git
+      
+          # Añadir los cambios y hacer commit
           git add model.h5
           git commit -m "Add/Update trained model file (model.h5)"
+          
+          # Hacer push al repositorio
           git push origin main
 
+
   predict:
-    if: github.event_name == 'repository_dispatch'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: self-hosted
     steps:
       - name: Checkout Repository
