@@ -9,7 +9,7 @@ tf.random.set_seed(seed)
 
 # Convertir el argumento a una lista de valores
 try:
-    datos = eval(sys.argv[1])  # Convierte el argumento en una lista
+    datos = list(eval(sys.argv[1]))  # Convierte el argumento en una lista
     if not isinstance(datos, list) or len(datos) != 3:
         raise ValueError
 except:
