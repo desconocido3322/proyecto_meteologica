@@ -20,7 +20,7 @@ jobs:
 
       - name: Run Predictions
         env:
-          PREDICTION_INPUT: ${{ github.event.client_payload.datos }}
+          PREDICTION_INPUT: ${{ github.event.inputs.datos }}
         run: |
           echo " ${{ env.PREDICTION_INPUT }} "
           python predict.py "${{ env.PREDICTION_INPUT }}"
