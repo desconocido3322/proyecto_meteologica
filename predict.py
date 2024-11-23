@@ -20,7 +20,7 @@ except:
 
 # Cargar el modelo entrenado
 try:
-    model = load_model("model.h5",custom_objects={'mse': metrics.MeanSquaredError()})
+    model = load_model("model.h5", custom_objects={'mse': metrics.MeanSquaredError()})
 except Exception as e:
     print(f"Error al cargar el modelo: {e}")
     sys.exit(1)
@@ -38,5 +38,11 @@ for _ in range(12):  # 12 predicciones = 1 hora si los intervalos son de 5 minut
     # Actualizar la lista de entrada
     datos = np.append(datos[0, 1:], [[prediccion]], axis=0).reshape((1, 3, 1))
 
-# Retornar el último valor predicho
-print(f"ultimo valor predicho después de 1 hora: {ultimo_valor:.2f}")
+# Guardar el último valor predicho en un archivo de texto
+try:
+    with open("predicho.txt", "w") as file:
+        file.write(f"{ultimo_valor:.2f}")
+    print(f"Último valor predicho después de 1 hora: {ultimo_valor:.2f}")
+    print("El valor ha sido guardado en 'ultimo_valor_predicho.txt'.")
+except Exception as e:
+    print(f"Error al guardar el archivo: {e}")
