@@ -2,6 +2,8 @@ name: Train Workflow
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
   train:
