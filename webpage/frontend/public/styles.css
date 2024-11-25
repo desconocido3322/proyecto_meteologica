@@ -1,0 +1,130 @@
+/* color palette
+#181C14
+#3C3D37
+#697565
+#ECDFCC
+*/
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    background-color: #ECDFCC;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+p,
+h1,
+h2 {
+    cursor: default;
+    color: #181C14;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #697565;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #ffffff;
+}
+
+#app {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.arduino-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-title {
+    text-align: center;
+}
+
+.left-container,
+.right-container {
+    margin: 1rem;
+}
+
+.json-data {
+    display: flex;
+    overflow-y: scroll;
+    height: 15rem;
+    justify-content: center;
+    color: white;
+}
+
+.data-container {
+    background-color: #3C3D37;
+    white-space: pre-wrap;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.data-container>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.data-container>div>.buttons-container>button {
+    height: 3rem;
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-right: 0.5rem;
+    margin-left: 0.5em;
+    background-color: #3C3D37;
+}
+
+.data-container>div>.buttons-container>button>img {
+    width: 1rem;
+}
+
+.buttons-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons-container>button {
+    transition: .3s ease all;
+}
+
+.buttons-container>button:hover {
+    transition: .3s ease all;
+    cursor: pointer;
+}
+
+.data-container>h2 {
+    margin-left: 5rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.data-container>hr {
+    width: 21rem;
+    margin-top: -3rem;
+    border-color: #697565;
+    border-block-end-style: none;
+    text-shadow: 2px 17px white;
+}
+
+.arduino-container>.left-container>div>p{
+    transition: .3s ease all;    
+}
