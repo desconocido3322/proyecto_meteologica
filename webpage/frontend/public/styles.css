@@ -47,6 +47,7 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .main-title {
@@ -56,6 +57,11 @@ h2 {
 .left-container,
 .right-container {
     margin: 1rem;
+    display: flex;
+}
+
+.left-container>div{
+    padding:1rem;
 }
 
 .json-data {
@@ -64,6 +70,7 @@ h2 {
     height: 15rem;
     justify-content: center;
     color: white;
+    width: 18rem;
 }
 
 .data-container {
@@ -71,6 +78,7 @@ h2 {
     white-space: pre-wrap;
     padding: 10px;
     margin-top: 20px;
+    width: 40rem;
 }
 
 .data-container>div {
