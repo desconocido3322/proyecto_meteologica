@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,10 +10,12 @@
 </head>
 
 <body>
-
-    <script>
-        const jsonData = 'http://192.168.137.212:5000/data.json';
+    <script src="/env.js"></script>
+    <script>	
+        const jsonData = 'http://IP_HOST:BACKEND_PORT/data.json';
         const savedDataArray = [];
+
+
 
         //download data from db
         async function downloadBackup() {
@@ -77,10 +80,8 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-
                 const dataString = await response.text();
                 const data = JSON.parse(dataString);
-
                 updateUI(data);
                 saveData(data);
                 saveDataToLocalStorage();
@@ -145,11 +146,8 @@
         }
         //updates data showed in UI
         function updateUI(data) {
-            const arduino1 = data.COM5;
-            const arduino2 = data.COM6;
-
-            if (arduino1.length > 0) {
-                arduino1.forEach(index => {
+            if (data.endsWith('.json')) {
+                data.forEach(index => {
                     document.getElementById('dispositivo1').textContent = `Arduino Uno: ${index.device || 'N/A'}`;
                     document.getElementById('temperatura1').textContent = `Temperatura: ${index.temperatura || 'N/A'} °C`;
                     document.getElementById('nivelCO21').textContent = `Nivel de CO2: ${index.co2 || 'N/A'} ppm`;
@@ -159,19 +157,25 @@
                 });
             }
 
-            if (arduino2.length > 0) {
-                arduino2.forEach(index => {
-                    document.getElementById('dispositivo2').textContent = `Arduino Uno: ${index.device || 'N/A'}`;
-                    document.getElementById('temperatura2').textContent = `Temperatura: ${index.temperatura || 'N/A'} °C`;
-                    document.getElementById('nivelCO22').textContent = `Nivel de CO2: ${index.co2 || 'N/A'} ppm`;
-                    document.getElementById('nivelHumedad2').textContent = `Nivel de Humedad: ${index.humedad || 'N/A'} %`;
-                    document.getElementById('nivelRayosUV2').textContent = `Nivel de Rayos UV: ${index.uvs || 'N/A'}`;
-                    document.getElementById('intensidadLuminica2').textContent = `Intensidad Luminica: ${index.luminica || 'N/A'} lux`;
-                });
+            else {
+                    document.getElementById('temperaturaPred').textContent = `Temperatura: ${data || 'N/A'} °C`;
             }
         }
+
+	//script to download predictions
+	async function predict() {
+            await fetch('/predict')
+               .then(response => response.text())
+	       .then(data => {
+	       		console.log(data);
+			updateUI(data);
+	       })
+       .catch(error => console.error('Error al cargar el archivo:', error));
+       }
+
         async function initialize() {
             await fetchData();
+	    await predict();
         }
 
         //confirm before close session
@@ -186,8 +190,9 @@
             console.log('localStorage limpiado');
         };
 
-        setInterval(fetchData, 10000);
-        setInterval(uploadDataToServer, 3600000);
+
+        setInterval(fetchData, LOAD_INFO);
+        setInterval(uploadDataToServer, UPLOAD_TIME);
 
         initialize();
 
@@ -206,18 +211,16 @@
                     <p id="intensidadLuminica1">Intensidad Luminica: Cargando...</p>
                 </div>
             </div>
-            <div class="left-container" id="app2">
+            <div class="right-container" id="app2">
                 <div>
-                    <h2 id="dispositivo2">Conectando dispositivo...</h2>
-                    <p id="temperatura2">Temperatura: Cargando...</p>
-                    <p id="nivelCO22">Nivel de CO2: Cargando...</p>
-                    <p id="nivelHumedad2">Nivel de Humedad: Cargando...</p>
-                    <p id="nivelRayosUV2">Nivel de Rayos UV: Cargando...</p>
-                    <p id="intensidadLuminica2">Intensidad Luminica: Cargando...</p>
+                    <h2 id="dispositivoPred">Pronostico</h2>
+                    <p id="temperaturaPred">Temperatura: Cargando...</p>
+                    <p id="nivelCO2Pred">Nivel de CO2: Cargando...</p>
+                    <p id="nivelHumedadPred">Nivel de Humedad: Cargando...</p>
+                    <p id="nivelRayosUVPred">Nivel de Rayos UV: Cargando...</p>
+                    <p id="intensidadLuminicaPred">Intensidad Luminica: Cargando...</p>
                 </div>
             </div>
-        </div>
-
         <div id="data-display" class="data-container">
             <h2>Datos Guardados</h2>
             <hr />
