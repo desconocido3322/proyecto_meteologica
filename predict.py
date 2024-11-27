@@ -4,7 +4,7 @@ from tensorflow.keras import metrics
 import tensorflow as tf
 import sys
 
-# Configuración de semillas para reproducibilidad
+# Configuración de semillas para reproducibilida
 seed = 12122008
 np.random.seed(seed)
 tf.random.set_seed(seed)
