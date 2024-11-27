@@ -16,7 +16,7 @@ model_path = "model.h5"
 datos_combinadosAJAHUEL_H1 = pd.read_csv('final.csv')
 y3 = datos_combinadosAJAHUEL_H1['ts'].values
 
-# Preparar los datos
+# Preparar los dato
 yw = []
 yt = []
 for i in range(len(y3) - 3):
