@@ -76,12 +76,16 @@ print(f'R^2: {r2}')
 print(f'MAE: {mae}')
 print(f'MSE: {mse}')
 
-# Graficar las predicciones
-plt.figure(figsize=(10, 6))
-plt.plot(range(len(yt_test)), yt_test, label='Valores Reales')
-plt.plot(range(len(predictions)), predictions, color='red', label='Predicciones')
+plt.figure(figsize=(8, 6))
+plt.plot(y_test, label="Valores Reales", marker='o', linestyle='--')
+plt.plot(predictions.flatten(), label="Predicciones", marker='o', linestyle='-')
+plt.title(f"Comparación de Valores Reales y Predicciones\nMSE: {mse:.4f}")
+plt.xlabel("Índice")
+plt.ylabel("Temperatura (°C)")
 plt.legend()
-plt.title('Predicciones del modelo LSTM')
-plt.xlabel('Índice de Tiempo')
-plt.ylabel('Valor')
-plt.savefig('predicciones.png')
+plt.grid()
+
+# Guardar gráfico como archivo de imagen
+plot_path = "clusters_plot.png"
+plt.savefig(plot_path)
+print(f"Gráfico guardado en {plot_path}")
